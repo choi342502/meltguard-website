@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MeltGuard — 자폐 아동의 멜트다운을 예측하는 웨어러블 헬스케어 솔루션" />
+  <title>MeltGuard</title>
+
+  <!-- Pretendard (Korean) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <!-- Inter (English) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sage:     '#7A9B8E',
+            peach:    '#F5C9A8',
+            cream:    '#FAF5EC',
+            charcoal: '#3D3D3D',
+            lavender: '#C9C1D9',
+            mist:     '#E8EDE8',
+          },
+          fontFamily: {
+            sans: ['Pretendard', 'Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Pretendard', 'Inter', sans-serif; }
+
+    #hero {
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -15%;
+      left: -10%;
+      width: 50%;
+      height: 60%;
+      background: #7A9B8E;
+      border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+      filter: blur(90px);
+      opacity: 0.22;
+      z-index: 0;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: -12%;
+      right: -8%;
+      width: 45%;
+      height: 55%;
+      background: #F5C9A8;
+      border-radius: 45% 55% 40% 60% / 60% 40% 55% 45%;
+      filter: blur(90px);
+      opacity: 0.28;
+      z-index: 0;
+    }
+  </style>
+</head>
+
+<body class="bg-cream text-charcoal">
+
+  <!-- ───────────────────────────────────────────
+       NAV: 상단 고정 네비게이션바
+  ─────────────────────────────────────────────── -->
+  <header class="fixed top-0 inset-x-0 z-50 bg-cream/90 backdrop-blur-sm border-b border-mist">
+    <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="주 내비게이션">
+
+      <!-- 로고 -->
+      <a href="#hero" class="text-xl font-bold text-sage tracking-tight" aria-label="MeltGuard 홈으로">
+        MeltGuard
+      </a>
+
+      <!-- 데스크톱 메뉴 -->
+      <ul class="hidden md:flex items-center gap-8 text-sm font-medium" role="list">
+        <li><a href="#features" class="hover:text-sage transition-colors">기능소개</a></li>
+        <li><a href="#showcase" class="hover:text-sage transition-colors">UI</a></li>
+        <li><a href="#partners" class="hover:text-sage transition-colors">파트너</a></li>
+        <li><a href="#video"    class="hover:text-sage transition-colors">영상</a></li>
+        <li>
+          <a href="#contact"
+             class="px-4 py-2 rounded-full bg-sage text-white hover:bg-opacity-85 transition-colors"
+             aria-label="Contact 섹션으로 이동">
+            Contact
+          </a>
+        </li>
+      </ul>
+
+      <!-- 모바일 햄버거 (체크박스 트릭) -->
+      <label for="mobile-menu-toggle" class="md:hidden cursor-pointer p-2" aria-label="모바일 메뉴 열기">
+        <span class="block w-5 h-0.5 bg-charcoal mb-1"></span>
+        <span class="block w-5 h-0.5 bg-charcoal mb-1"></span>
+        <span class="block w-5 h-0.5 bg-charcoal"></span>
+      </label>
+    </nav>
+
+    <!-- 모바일 드롭다운 메뉴 -->
+    <input type="checkbox" id="mobile-menu-toggle" class="hidden peer" />
+    <div class="md:hidden hidden peer-checked:block bg-cream border-t border-mist px-6 py-4">
+      <ul class="flex flex-col gap-4 text-sm font-medium" role="list">
+        <li><a href="#features" class="hover:text-sage transition-colors">기능소개</a></li>
+        <li><a href="#showcase" class="hover:text-sage transition-colors">UI</a></li>
+        <li><a href="#partners" class="hover:text-sage transition-colors">파트너</a></li>
+        <li><a href="#video"    class="hover:text-sage transition-colors">영상</a></li>
+        <li><a href="#contact"  class="hover:text-sage transition-colors">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- 네비게이션 높이만큼 여백 -->
+  <div class="h-16" aria-hidden="true"></div>
+
+
+  <!-- ───────────────────────────────────────────
+       SECTION 1: Hero — 히어로 섹션
+  ─────────────────────────────────────────────── -->
+  <section id="hero" class="min-h-[90vh] flex items-center" aria-label="히어로">
+    <div class="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-20 py-20
+                grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+
+      <!-- 좌측: 텍스트 영역 -->
+      <div class="flex flex-col gap-6 items-start">
+
+        <!-- 상단 태그 -->
+        <span class="px-4 py-1.5 rounded-full bg-sage/20 text-sage text-sm font-medium tracking-wide">
+          자폐 스펙트럼 디지털 헬스케어
+        </span>
+
+        <!-- 메인 카피 -->
+        <h1 class="text-4xl md:text-5xl font-bold leading-snug tracking-tight text-charcoal">
+          자폐 아동의 멜트다운,<br>
+          <span class="text-sage">5분 전</span>에 알아챕니다
+        </h1>
+
+        <!-- 서브 카피 -->
+        <p class="text-lg text-charcoal/70 leading-relaxed">
+          웨어러블과 AI로 골든타임을 확보하는<br>
+          디지털 헬스케어 솔루션, MeltGuard
+        </p>
+
+        <!-- CTA 버튼 2개 -->
+        <div class="flex flex-wrap gap-3 mt-1">
+          <a href="#video"
+             class="px-6 py-3 rounded-full bg-sage text-white text-sm font-semibold
+                    shadow-md hover:bg-sage/85 active:scale-95 transition-all duration-150">
+            소개 영상 보기
+          </a>
+          <a href="#contact"
+             class="px-6 py-3 rounded-full border-2 border-sage text-sage text-sm font-semibold
+                    hover:bg-sage/10 active:scale-95 transition-all duration-150">
+            문의하기
+          </a>
+        </div>
+
+        <!-- 신뢰 지표 3개 -->
+        <div class="flex flex-wrap gap-x-6 gap-y-2 mt-2 text-sm text-charcoal/60 font-medium">
+          <span class="flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-sage inline-block"></span>
+            5분 골든타임 확보
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-sage inline-block"></span>
+            AI 기반 예측
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-sage inline-block"></span>
+            한국형 최적화
+          </span>
+        </div>
+      </div>
+
+      <!-- 우측: 목업 placeholder -->
+      <div class="flex items-center justify-center">
+        <div class="w-full aspect-[4/5] max-w-sm rounded-3xl bg-peach/20
+                    border border-peach/30 shadow-lg
+                    flex items-center justify-center text-charcoal/40 text-sm font-medium">
+          워치 + 보호자 앱 목업 자리
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ───────────────────────────────────────────
+       SECTION 2: Features — 기능 소개
+  ─────────────────────────────────────────────── -->
+  <section id="features" class="py-24 bg-mist/40" aria-label="기능 소개">
+    <div class="max-w-6xl mx-auto px-6 md:px-20 flex flex-col gap-20">
+
+      <!-- 상단 제목 영역 -->
+      <div class="flex flex-col items-center text-center gap-3">
+        <span class="px-4 py-1.5 rounded-full bg-sage/20 text-sage text-sm font-medium tracking-wide">
+          Features
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-charcoal">
+          예측하고, 알리고, 진정시킵니다
+        </h2>
+        <p class="text-base text-charcoal/60">MeltGuard의 3단계 케어 시스템</p>
+      </div>
+
+      <!-- 가치 카드 3개 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- 카드 1: 선제적 예방 -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm flex flex-col gap-5">
+          <div class="w-16 h-16 rounded-full bg-peach/30 flex items-center justify-center text-3xl"
+               aria-hidden="true">🛡️</div>
+          <div class="flex flex-col gap-2">
+            <h3 class="text-lg font-bold text-charcoal">선제적 예방</h3>
+            <p class="text-sm text-charcoal/65 leading-relaxed">
+              심박변이도(HRV)와 피부전도도(EDA)를 24시간 모니터링하여
+              딥러닝으로 멜트다운 5분 전을 예측합니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- 카드 2: 실시간 알림 -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm flex flex-col gap-5">
+          <div class="w-16 h-16 rounded-full bg-peach/30 flex items-center justify-center text-3xl"
+               aria-hidden="true">🔔</div>
+          <div class="flex flex-col gap-2">
+            <h3 class="text-lg font-bold text-charcoal">실시간 알림</h3>
+            <p class="text-sm text-charcoal/65 leading-relaxed">
+              징후 포착 시 보호자에게 즉각 알림을 전송하고,
+              상황별 대처 가이드를 함께 제공합니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- 카드 3: 맞춤형 중재 -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm flex flex-col gap-5">
+          <div class="w-16 h-16 rounded-full bg-peach/30 flex items-center justify-center text-3xl"
+               aria-hidden="true">🧘</div>
+          <div class="flex flex-col gap-2">
+            <h3 class="text-lg font-bold text-charcoal">맞춤형 중재</h3>
+            <p class="text-sm text-charcoal/65 leading-relaxed">
+              부모님 음성과 심호흡 유도로 자율신경을 안정시켜
+              아이가 스스로 진정할 수 있도록 돕습니다.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 하단 3-Step 작동원리 -->
+      <div class="flex flex-col gap-10">
+        <h3 class="text-xl font-bold text-charcoal text-center">이렇게 작동합니다</h3>
+
+        <!-- 스텝 타임라인 -->
+        <div class="flex flex-col md:flex-row items-stretch gap-4 md:gap-0">
+
+          <!-- STEP 01 -->
+          <div class="flex-1 flex flex-col gap-3 bg-white rounded-2xl p-7 shadow-sm">
+            <span class="text-4xl font-bold text-sage/30 leading-none">01</span>
+            <div class="flex flex-col gap-1">
+              <p class="text-xs font-semibold text-sage tracking-widest uppercase">INPUT</p>
+              <h4 class="font-bold text-charcoal">입력</h4>
+              <p class="text-sm text-charcoal/65 leading-relaxed">
+                자율신경계 데이터 실시간 수집<br>
+                HRV, EDA, 가속도, 자이로스코프
+              </p>
+            </div>
+          </div>
+
+          <!-- 화살표 -->
+          <div class="hidden md:flex items-center justify-center px-2 text-sage/40 text-2xl"
+               aria-hidden="true">→</div>
+          <div class="md:hidden flex justify-center text-sage/40 text-xl" aria-hidden="true">↓</div>
+
+          <!-- STEP 02 -->
+          <div class="flex-1 flex flex-col gap-3 bg-white rounded-2xl p-7 shadow-sm">
+            <span class="text-4xl font-bold text-sage/30 leading-none">02</span>
+            <div class="flex flex-col gap-1">
+              <p class="text-xs font-semibold text-sage tracking-widest uppercase">PROCESS</p>
+              <h4 class="font-bold text-charcoal">처리</h4>
+              <p class="text-sm text-charcoal/65 leading-relaxed">
+                AI 패턴 인식 및 데이터 해석<br>
+                RNN/LSTM 시계열 모델로 사전 징후 학습
+              </p>
+            </div>
+          </div>
+
+          <!-- 화살표 -->
+          <div class="hidden md:flex items-center justify-center px-2 text-sage/40 text-2xl"
+               aria-hidden="true">→</div>
+          <div class="md:hidden flex justify-center text-sage/40 text-xl" aria-hidden="true">↓</div>
+
+          <!-- STEP 03 -->
+          <div class="flex-1 flex flex-col gap-3 bg-white rounded-2xl p-7 shadow-sm">
+            <span class="text-4xl font-bold text-sage/30 leading-none">03</span>
+            <div class="flex flex-col gap-1">
+              <p class="text-xs font-semibold text-sage tracking-widest uppercase">OUTPUT</p>
+              <h4 class="font-bold text-charcoal">출력</h4>
+              <p class="text-sm text-charcoal/65 leading-relaxed">
+                스트레스 지수 0~100 시각화<br>
+                안정(0-40) · 경계(40-70) · 위험(70-100)
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 위험도 시각화 바 -->
+        <div class="bg-white rounded-2xl p-7 shadow-sm flex flex-col gap-4">
+          <p class="text-sm font-semibold text-charcoal">스트레스 지수 구간</p>
+
+          <!-- 그라데이션 바 -->
+          <div class="relative h-5 rounded-full overflow-hidden"
+               style="background: linear-gradient(to right, #7A9B8E, #F5C9A8);"
+               role="img" aria-label="스트레스 지수 그라데이션 바 0에서 100">
+            <!-- 구분선 40 -->
+            <div class="absolute top-0 bottom-0 w-px bg-white/70" style="left: 40%;" aria-hidden="true"></div>
+            <!-- 구분선 70 -->
+            <div class="absolute top-0 bottom-0 w-px bg-white/70" style="left: 70%;" aria-hidden="true"></div>
+          </div>
+
+          <!-- 눈금 라벨 -->
+          <div class="relative flex text-xs text-charcoal/50 font-medium">
+            <span class="absolute" style="left: 0%;">0</span>
+            <span class="absolute -translate-x-1/2" style="left: 40%;">40</span>
+            <span class="absolute -translate-x-1/2" style="left: 70%;">70</span>
+            <span class="absolute -translate-x-full" style="left: 100%;">100</span>
+          </div>
+
+          <!-- 구간 라벨 -->
+          <div class="flex text-xs font-semibold mt-1">
+            <span class="flex-[40] text-sage">안정</span>
+            <span class="flex-[30] text-center text-charcoal/50">경계</span>
+            <span class="flex-[30] text-right text-charcoal/80">위험</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ───────────────────────────────────────────
+       SECTION 3: Showcase — UI / 앱 스크린샷
+  ─────────────────────────────────────────────── -->
+  <section id="showcase" class="py-24 bg-cream" aria-label="UI 쇼케이스">
+    <div class="max-w-6xl mx-auto px-6 md:px-20 flex flex-col gap-16">
+
+      <!-- 섹션 제목 -->
+      <div class="flex flex-col items-center text-center gap-3">
+        <span class="px-4 py-1.5 rounded-full bg-sage/20 text-sage text-sm font-medium tracking-wide">
+          Product UI
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-charcoal">
+          워치와 앱, 함께 작동합니다
+        </h2>
+        <p class="text-base text-charcoal/60">아이는 워치로, 보호자는 앱으로 연결됩니다</p>
+      </div>
+
+      <!-- 메인 목업 영역: 좌측 워치(40%) + 우측 앱 3개(60%) -->
+      <div class="flex flex-col md:flex-row gap-10 md:gap-12 items-center">
+
+        <!-- 좌측: 갤럭시 워치 목업 placeholder -->
+        <div class="w-full md:w-[40%] flex flex-col items-center gap-4">
+          <div class="w-full max-w-xs aspect-[3/4] rounded-3xl bg-sage/10
+                      border-2 border-dashed border-sage/30
+                      flex flex-col items-center justify-center gap-4">
+            <!-- 원형 워치 화면 -->
+            <div class="w-44 h-44 rounded-full bg-white border-2 border-dashed border-sage/30
+                        flex items-center justify-center text-charcoal/40 text-xs text-center px-4">
+              워치 화면<br>스트레스 지수 표시
+            </div>
+          </div>
+          <p class="text-xs text-charcoal/40 text-center">워치 화면 — 스트레스 지수 표시</p>
+        </div>
+
+        <!-- 우측: 보호자 앱 화면 3개 (계단식 겹침) -->
+        <div class="w-full md:w-[60%] flex items-end justify-center">
+          <div class="relative flex items-end justify-center h-80 md:h-96 w-full">
+
+            <!-- 뒤 왼쪽: AI 리포트 -->
+            <div class="absolute bottom-0 left-[5%] md:left-[8%]
+                        w-[28%] max-w-[120px] aspect-[9/19]
+                        rounded-2xl bg-lavender/20 border-2 border-dashed border-lavender/50
+                        flex items-end justify-center pb-3 rotate-[-6deg] origin-bottom"
+                 aria-label="AI 리포트 화면 placeholder">
+              <span class="text-[10px] text-charcoal/40 font-medium">AI 리포트</span>
+            </div>
+
+            <!-- 뒤 오른쪽: 알림 화면 -->
+            <div class="absolute bottom-0 right-[5%] md:right-[8%]
+                        w-[28%] max-w-[120px] aspect-[9/19]
+                        rounded-2xl bg-peach/20 border-2 border-dashed border-peach/60
+                        flex items-end justify-center pb-3 rotate-[6deg] origin-bottom"
+                 aria-label="알림 화면 placeholder">
+              <span class="text-[10px] text-charcoal/40 font-medium">알림 화면</span>
+            </div>
+
+            <!-- 앞 중앙: 대시보드 -->
+            <div class="relative z-10
+                        w-[32%] max-w-[140px] aspect-[9/19]
+                        rounded-2xl bg-white border-2 border-dashed border-sage/40 shadow-lg
+                        flex items-end justify-center pb-3"
+                 aria-label="대시보드 화면 placeholder">
+              <span class="text-[10px] text-charcoal/40 font-medium">대시보드</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 하단 기능 설명 카드 4개 -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+        <!-- 카드 1 -->
+        <div class="bg-cream border border-mist rounded-2xl p-5 flex flex-col gap-2">
+          <p class="text-xs font-semibold text-sage tracking-wide uppercase">워치</p>
+          <h4 class="text-sm font-bold text-charcoal">스트레스 지수</h4>
+          <p class="text-xs text-charcoal/60 leading-relaxed">
+            0~100 직관적 수치로 위험도 즉시 파악
+          </p>
+        </div>
+
+        <!-- 카드 2 -->
+        <div class="bg-cream border border-mist rounded-2xl p-5 flex flex-col gap-2">
+          <p class="text-xs font-semibold text-sage tracking-wide uppercase">워치</p>
+          <h4 class="text-sm font-bold text-charcoal">진동·시각 단서</h4>
+          <p class="text-xs text-charcoal/60 leading-relaxed">
+            심호흡 유도 가이드로 자율신경 안정화
+          </p>
+        </div>
+
+        <!-- 카드 3 -->
+        <div class="bg-cream border border-mist rounded-2xl p-5 flex flex-col gap-2">
+          <p class="text-xs font-semibold text-sage tracking-wide uppercase">앱</p>
+          <h4 class="text-sm font-bold text-charcoal">실시간 알림</h4>
+          <p class="text-xs text-charcoal/60 leading-relaxed">
+            멜트다운 징후 포착 즉시 보호자에게 전송
+          </p>
+        </div>
+
+        <!-- 카드 4 -->
+        <div class="bg-cream border border-mist rounded-2xl p-5 flex flex-col gap-2">
+          <p class="text-xs font-semibold text-sage tracking-wide uppercase">앱</p>
+          <h4 class="text-sm font-bold text-charcoal">주간 리포트</h4>
+          <p class="text-xs text-charcoal/60 leading-relaxed">
+            AI가 분석한 아이의 감정 패턴을 시각화
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ───────────────────────────────────────────
+       SECTION 4: Partners — 파트너 / 협력 기관
+  ─────────────────────────────────────────────── -->
+  <section id="partners" class="py-24 bg-mist/40" aria-label="파트너">
+    <div class="flex flex-col gap-10">
+
+      <!-- 섹션 제목 -->
+      <div class="flex flex-col items-center text-center gap-2 px-6">
+        <h2 class="text-3xl md:text-4xl font-bold italic tracking-tight text-charcoal">
+          Our Partners
+        </h2>
+        <p class="text-sm text-charcoal/50">
+          MeltGuard는 다음 기관들과 협력을 추진하고 있습니다
+        </p>
+      </div>
+
+      <!-- 캐러셀 래퍼 -->
+      <div class="relative flex items-center">
+
+        <!-- 이전 버튼 -->
+        <button id="partners-prev"
+                class="absolute left-2 z-10 w-10 h-10 rounded-full bg-white shadow-md border border-mist
+                       flex items-center justify-center text-charcoal/50 hover:text-charcoal
+                       hover:shadow-lg transition-all duration-150 shrink-0"
+                aria-label="이전 파트너">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2"
+               viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+
+        <!-- 슬라이드 트랙 -->
+        <div id="partners-track"
+             class="flex gap-5 overflow-x-auto scroll-smooth px-14 py-4
+                    scrollbar-hide snap-x snap-mandatory"
+             style="scrollbar-width:none; -ms-overflow-style:none;">
+
+          <!-- 카드: 연세대학교 -->
+          <div class="snap-start shrink-0 w-52 h-36 bg-white rounded-xl shadow-sm border border-mist/60
+                      flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span class="text-2xl" aria-hidden="true">🔬</span>
+            <p class="text-sm font-bold text-charcoal leading-snug">연세대학교</p>
+            <p class="text-xs text-charcoal/50">테크노비즈니스디자인</p>
+          </div>
+
+          <!-- 카드: 세브란스 -->
+          <div class="snap-start shrink-0 w-52 h-36 bg-white rounded-xl shadow-sm border border-mist/60
+                      flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span class="text-2xl" aria-hidden="true">🏥</span>
+            <p class="text-sm font-bold text-charcoal leading-snug">세브란스 어린이병원</p>
+            <p class="text-xs text-charcoal/50">자폐 클리닉</p>
+          </div>
+
+          <!-- 카드: 서울대학교 -->
+          <div class="snap-start shrink-0 w-52 h-36 bg-white rounded-xl shadow-sm border border-mist/60
+                      flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span class="text-2xl" aria-hidden="true">🎓</span>
+            <p class="text-sm font-bold text-charcoal leading-snug">서울대학교</p>
+            <p class="text-xs text-charcoal/50">협의 중</p>
+          </div>
+
+          <!-- 카드: 한국특수요육원 -->
+          <div class="snap-start shrink-0 w-52 h-36 bg-white rounded-xl shadow-sm border border-mist/60
+                      flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span class="text-2xl" aria-hidden="true">🤲</span>
+            <p class="text-sm font-bold text-charcoal leading-snug">(주)한국특수요육원</p>
+          </div>
+
+          <!-- 카드: 발달장애 거점병원 -->
+          <div class="snap-start shrink-0 w-52 h-36 bg-white rounded-xl shadow-sm border border-mist/60
+                      flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span class="text-2xl" aria-hidden="true">🏨</span>
+            <p class="text-sm font-bold text-charcoal leading-snug">발달장애 거점병원 네트워크</p>
+          </div>
+
+          <!-- 카드: NEST -->
+          <div class="snap-start shrink-0 w-52 h-36 bg-white rounded-xl shadow-sm border border-mist/60
+                      flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span class="text-2xl" aria-hidden="true">⚙️</span>
+            <p class="text-sm font-bold text-charcoal leading-snug">NEST</p>
+            <p class="text-xs text-charcoal/50">MIND EASE™ 자율신경 분석</p>
+          </div>
+
+          <!-- 카드: Samsung Health -->
+          <div class="snap-start shrink-0 w-52 h-36 bg-white rounded-xl shadow-sm border border-mist/60
+                      flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span class="text-2xl" aria-hidden="true">📱</span>
+            <p class="text-sm font-bold text-charcoal leading-snug">Samsung Health SDK</p>
+          </div>
+
+          <!-- 카드: 한국자폐인사랑협회 -->
+          <div class="snap-start shrink-0 w-52 h-36 bg-white rounded-xl shadow-sm border border-mist/60
+                      flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span class="text-2xl" aria-hidden="true">🤝</span>
+            <p class="text-sm font-bold text-charcoal leading-snug">한국자폐인사랑협회</p>
+          </div>
+
+          <!-- 카드: AP 코리아 -->
+          <div class="snap-start shrink-0 w-52 h-36 bg-white rounded-xl shadow-sm border border-mist/60
+                      flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span class="text-2xl" aria-hidden="true">🌏</span>
+            <p class="text-sm font-bold text-charcoal leading-snug">AP 코리아</p>
+          </div>
+
+          <!-- 카드: 자람이 -->
+          <div class="snap-start shrink-0 w-52 h-36 bg-white rounded-xl shadow-sm border border-mist/60
+                      flex flex-col items-center justify-center gap-2 px-4 text-center">
+            <span class="text-2xl" aria-hidden="true">💬</span>
+            <p class="text-sm font-bold text-charcoal leading-snug">보호자 커뮤니티</p>
+            <p class="text-xs text-charcoal/50">'자람이'</p>
+          </div>
+
+        </div>
+
+        <!-- 다음 버튼 -->
+        <button id="partners-next"
+                class="absolute right-2 z-10 w-10 h-10 rounded-full bg-white shadow-md border border-mist
+                       flex items-center justify-center text-charcoal/50 hover:text-charcoal
+                       hover:shadow-lg transition-all duration-150 shrink-0"
+                aria-label="다음 파트너">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2"
+               viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+      </div>
+
+      <!-- 하단 신뢰 메시지 -->
+      <p class="text-center text-sm text-charcoal/60 leading-relaxed px-6">
+        학술 연구와 임상 데이터를 기반으로 검증된 솔루션을 만들어갑니다
+      </p>
+
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var track = document.getElementById('partners-track');
+      var prev  = document.getElementById('partners-prev');
+      var next  = document.getElementById('partners-next');
+      var step  = 224; /* card width(208) + gap(16) */
+      if (!track) return;
+      prev.addEventListener('click', function () { track.scrollBy({ left: -step * 2, behavior: 'smooth' }); });
+      next.addEventListener('click', function () { track.scrollBy({ left:  step * 2, behavior: 'smooth' }); });
+    })();
+  </script>
+
+
+  <!-- ───────────────────────────────────────────
+       SECTION 5: Video — 시연 영상
+  ─────────────────────────────────────────────── -->
+  <section id="video" class="py-24 bg-cream" aria-label="시연 영상">
+    <div class="max-w-5xl mx-auto px-6 md:px-20 flex flex-col gap-12">
+
+      <!-- 섹션 제목 -->
+      <div class="flex flex-col items-center text-center gap-3">
+        <span class="px-4 py-1.5 rounded-full bg-sage/20 text-sage text-sm font-medium tracking-wide">
+          How It Works
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-charcoal">
+          MeltGuard는 이렇게 작동합니다
+        </h2>
+        <p class="text-base text-charcoal/60">실제 사용 시나리오를 영상으로 확인해보세요</p>
+      </div>
+
+      <!-- 영상 영역 -->
+      <div class="flex flex-col gap-3">
+        <div id="video-player"
+             data-video-src=""
+             class="w-full aspect-video rounded-3xl bg-sage/20
+                    flex items-center justify-center cursor-pointer group"
+             role="button" aria-label="소개 영상 재생">
+          <!-- 재생 버튼 -->
+          <div class="w-20 h-20 rounded-full bg-sage flex items-center justify-center
+                      shadow-lg transition-transform duration-200 group-hover:scale-110">
+            <svg class="w-8 h-8 text-white translate-x-0.5" fill="currentColor"
+                 viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </div>
+        </div>
+        <p class="text-center text-xs text-charcoal/40">
+          본 영상은 실제 사용 시나리오를 재구성한 것입니다
+        </p>
+      </div>
+
+      <!-- 영상 스토리 4단계 -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+        <div class="flex md:flex-col gap-4 md:gap-2 items-start">
+          <div class="w-8 h-8 shrink-0 rounded-full bg-sage/20 flex items-center justify-center
+                      text-sage text-xs font-bold">01</div>
+          <div class="flex flex-col gap-0.5">
+            <p class="text-xs text-charcoal/50 font-medium">0–5초</p>
+            <p class="text-sm text-charcoal font-medium leading-snug">감각 과부하 상황 발생</p>
+          </div>
+        </div>
+
+        <div class="flex md:flex-col gap-4 md:gap-2 items-start">
+          <div class="w-8 h-8 shrink-0 rounded-full bg-sage/20 flex items-center justify-center
+                      text-sage text-xs font-bold">02</div>
+          <div class="flex flex-col gap-0.5">
+            <p class="text-xs text-charcoal/50 font-medium">5–10초</p>
+            <p class="text-sm text-charcoal font-medium leading-snug">워치 센서가 HRV·EDA 변화 감지</p>
+          </div>
+        </div>
+
+        <div class="flex md:flex-col gap-4 md:gap-2 items-start">
+          <div class="w-8 h-8 shrink-0 rounded-full bg-sage/20 flex items-center justify-center
+                      text-sage text-xs font-bold">03</div>
+          <div class="flex flex-col gap-0.5">
+            <p class="text-xs text-charcoal/50 font-medium">10–20초</p>
+            <p class="text-sm text-charcoal font-medium leading-snug">AI 분석 후 보호자에게 알림 전송</p>
+          </div>
+        </div>
+
+        <div class="flex md:flex-col gap-4 md:gap-2 items-start">
+          <div class="w-8 h-8 shrink-0 rounded-full bg-sage/20 flex items-center justify-center
+                      text-sage text-xs font-bold">04</div>
+          <div class="flex flex-col gap-0.5">
+            <p class="text-xs text-charcoal/50 font-medium">20–30초</p>
+            <p class="text-sm text-charcoal font-medium leading-snug">맞춤형 중재로 정서 안정 회복</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    /* 추후 data-video-src에 경로를 채우면 iframe으로 자동 교체 */
+    (function () {
+      var player = document.getElementById('video-player');
+      var src = player && player.dataset.videoSrc;
+      if (!src) return;
+      player.addEventListener('click', function () {
+        var iframe = document.createElement('iframe');
+        iframe.src = src + '?autoplay=1';
+        iframe.allow = 'autoplay; fullscreen';
+        iframe.className = 'w-full h-full rounded-3xl';
+        iframe.setAttribute('allowfullscreen', '');
+        player.innerHTML = '';
+        player.appendChild(iframe);
+      });
+    })();
+  </script>
+
+
+  <!-- ───────────────────────────────────────────
+       SECTION 6: Contact — 문의 / 팀 정보
+  ─────────────────────────────────────────────── -->
+  <section id="contact" class="py-24 bg-mist/40" aria-label="Contact">
+    <div class="max-w-6xl mx-auto px-6 md:px-20 flex flex-col gap-14">
+
+      <!-- 섹션 제목 -->
+      <div class="flex flex-col items-center text-center gap-3">
+        <span class="px-4 py-1.5 rounded-full bg-sage/20 text-sage text-sm font-medium tracking-wide">
+          Contact
+        </span>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-charcoal">
+          함께 만들어갑니다
+        </h2>
+        <p class="text-base text-charcoal/60">보호자 상담, 기관 도입, 파트너십 문의를 환영합니다</p>
+      </div>
+
+      <!-- 2단 레이아웃 -->
+      <div class="flex flex-col md:flex-row gap-10 md:gap-14 items-start">
+
+        <!-- 좌측: 연락처 정보 (40%) -->
+        <div class="w-full md:w-[40%] flex flex-col gap-7">
+
+          <!-- 연락처 항목 -->
+          <div class="flex flex-col gap-4">
+            <a href="mailto:meltguard.team@yonsei.ac.kr"
+               class="flex items-start gap-3 group">
+              <span class="text-xl mt-0.5" aria-hidden="true">📧</span>
+              <div class="flex flex-col">
+                <span class="text-xs text-charcoal/50 font-medium mb-0.5">이메일</span>
+                <span class="text-sm text-charcoal group-hover:text-sage transition-colors">
+                  meltguard.team@yonsei.ac.kr
+                </span>
+              </div>
+            </a>
+            <div class="flex items-start gap-3">
+              <span class="text-xl mt-0.5" aria-hidden="true">📍</span>
+              <div class="flex flex-col">
+                <span class="text-xs text-charcoal/50 font-medium mb-0.5">주소</span>
+                <span class="text-sm text-charcoal leading-relaxed">
+                  서울특별시 서대문구 연세로 50<br>연세대학교
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SNS 링크 -->
+          <div class="flex gap-3">
+            <a href="#" aria-label="Instagram"
+               class="flex items-center gap-2 px-4 py-2 rounded-full border border-charcoal/20
+                      text-sm text-charcoal/60 hover:border-sage hover:text-sage transition-colors">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.336 3.608 1.311.975.975 1.249 2.242 1.311 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.336 2.633-1.311 3.608-.975.975-2.242 1.249-3.608 1.311-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.336-3.608-1.311-.975-.975-1.249-2.242-1.311-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.336-2.633 1.311-3.608.975-.975 2.242-1.249 3.608-1.311C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.197.157 3.355.673 2.014 2.014.673 3.355.157 5.197.072 7.052.014 8.332 0 8.741 0 12c0 3.259.014 3.668.072 4.948.085 1.855.601 3.697 1.942 5.038 1.341 1.341 3.183 1.857 5.038 1.942C8.332 23.986 8.741 24 12 24s3.668-.014 4.948-.072c1.855-.085 3.697-.601 5.038-1.942 1.341-1.341 1.857-3.183 1.942-5.038.058-1.28.072-1.689.072-4.948 0-3.259-.014-3.668-.072-4.948-.085-1.855-.601-3.697-1.942-5.038C20.645.673 18.803.157 16.948.072 15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+              </svg>
+              Instagram
+            </a>
+            <a href="#" aria-label="KakaoTalk 채널"
+               class="flex items-center gap-2 px-4 py-2 rounded-full border border-charcoal/20
+                      text-sm text-charcoal/60 hover:border-sage hover:text-sage transition-colors">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.568 1.482 4.824 3.75 6.207L4.5 21l4.688-2.344A12.1 12.1 0 0012 19c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/>
+              </svg>
+              KakaoTalk
+            </a>
+          </div>
+
+          <!-- 운영 안내 -->
+          <div class="p-5 rounded-2xl bg-white border border-mist text-sm text-charcoal/65 leading-relaxed">
+            <p class="font-semibold text-charcoal mb-1">운영 안내</p>
+            평일 10:00 – 18:00<br>
+            문의 후 영업일 기준 2일 내 답변드립니다
+          </div>
+
+        </div>
+
+        <!-- 우측: 문의 폼 (60%) -->
+        <div class="w-full md:w-[60%]">
+          <form class="bg-white rounded-2xl p-8 shadow-sm flex flex-col gap-5"
+                onsubmit="event.preventDefault(); alert('문의가 접수되었습니다');"
+                aria-label="문의 폼">
+
+            <!-- 이름 -->
+            <div class="flex flex-col gap-1.5">
+              <label for="contact-name" class="text-sm font-medium text-charcoal">이름</label>
+              <input id="contact-name" type="text" name="name" placeholder="홍길동" required
+                     class="px-3 py-3 rounded-lg border border-charcoal/20 text-sm text-charcoal
+                            placeholder:text-charcoal/30 focus:outline-none focus:ring-2 focus:ring-sage" />
+            </div>
+
+            <!-- 소속 구분 -->
+            <div class="flex flex-col gap-1.5">
+              <label for="contact-org" class="text-sm font-medium text-charcoal">소속 구분</label>
+              <select id="contact-org" name="org"
+                      class="px-3 py-3 rounded-lg border border-charcoal/20 text-sm text-charcoal
+                             focus:outline-none focus:ring-2 focus:ring-sage bg-white">
+                <option value="">선택해주세요</option>
+                <option>개인 보호자</option>
+                <option>병원·기관</option>
+                <option>기업</option>
+                <option>기타</option>
+              </select>
+            </div>
+
+            <!-- 이메일 -->
+            <div class="flex flex-col gap-1.5">
+              <label for="contact-email" class="text-sm font-medium text-charcoal">이메일</label>
+              <input id="contact-email" type="email" name="email" placeholder="example@email.com" required
+                     class="px-3 py-3 rounded-lg border border-charcoal/20 text-sm text-charcoal
+                            placeholder:text-charcoal/30 focus:outline-none focus:ring-2 focus:ring-sage" />
+            </div>
+
+            <!-- 문의 유형 -->
+            <div class="flex flex-col gap-1.5">
+              <label for="contact-type" class="text-sm font-medium text-charcoal">문의 유형</label>
+              <select id="contact-type" name="type"
+                      class="px-3 py-3 rounded-lg border border-charcoal/20 text-sm text-charcoal
+                             focus:outline-none focus:ring-2 focus:ring-sage bg-white">
+                <option value="">선택해주세요</option>
+                <option>보호자 상담</option>
+                <option>기관 도입 문의</option>
+                <option>파트너십 제안</option>
+                <option>미디어·취재</option>
+                <option>기타</option>
+              </select>
+            </div>
+
+            <!-- 메시지 -->
+            <div class="flex flex-col gap-1.5">
+              <label for="contact-message" class="text-sm font-medium text-charcoal">메시지</label>
+              <textarea id="contact-message" name="message" rows="4"
+                        placeholder="문의 내용을 입력해주세요"
+                        class="px-3 py-3 rounded-lg border border-charcoal/20 text-sm text-charcoal
+                               placeholder:text-charcoal/30 focus:outline-none focus:ring-2 focus:ring-sage
+                               resize-none"></textarea>
+            </div>
+
+            <!-- 제출 버튼 -->
+            <button type="submit"
+                    class="w-full py-3.5 rounded-full bg-sage text-white text-sm font-semibold
+                           shadow-md hover:bg-sage/85 active:scale-95 transition-all duration-150">
+              문의 보내기
+            </button>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ───────────────────────────────────────────
+       FOOTER
+  ─────────────────────────────────────────────── -->
+  <footer class="bg-[#3D3D3D] text-cream/80" aria-label="푸터">
+    <div class="max-w-6xl mx-auto px-6 md:px-20 py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
+
+      <!-- 좌측: 로고 + 카피 -->
+      <div class="flex flex-col gap-3">
+        <span class="text-xl font-bold text-cream tracking-tight">MeltGuard</span>
+        <p class="text-sm text-cream/60 leading-relaxed italic">
+          Together, we make calm possible.
+        </p>
+      </div>
+
+      <!-- 중앙: 빠른 링크 -->
+      <div class="flex flex-col gap-3">
+        <p class="text-xs font-semibold text-cream/40 uppercase tracking-widest mb-1">Quick Links</p>
+        <nav aria-label="푸터 내비게이션">
+          <ul class="flex flex-col gap-2 text-sm" role="list">
+            <li><a href="#features" class="hover:text-cream transition-colors">기능소개</a></li>
+            <li><a href="#showcase" class="hover:text-cream transition-colors">UI</a></li>
+            <li><a href="#partners" class="hover:text-cream transition-colors">파트너</a></li>
+            <li><a href="#video"    class="hover:text-cream transition-colors">영상</a></li>
+            <li><a href="#contact"  class="hover:text-cream transition-colors">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- 우측: 팀 정보 -->
+      <div class="flex flex-col gap-2">
+        <p class="text-xs font-semibold text-cream/40 uppercase tracking-widest mb-1">Team</p>
+        <p class="text-sm leading-relaxed">
+          연세대학교 테크노비즈니스디자인 11조<br>
+          양다연 · 최주찬 · 송화원
+        </p>
+      </div>
+
+    </div>
+
+    <!-- 구분선 + 카피라이트 -->
+    <div class="border-t border-cream/10">
+      <div class="max-w-6xl mx-auto px-6 md:px-20 py-5 flex flex-col md:flex-row
+                  items-center justify-between gap-2 text-xs text-cream/40 text-center">
+        <span>© 2026 MeltGuard. All rights reserved.</span>
+        <span>This is a student project for educational purposes.</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
